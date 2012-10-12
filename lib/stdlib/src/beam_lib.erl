@@ -518,20 +518,22 @@ scan_beam1(File, What) ->
 	    R
     end.
 
+-define(NO_MODULE_ATOM,1).
+
 scan_beam2(FD, What) ->
     case pread(FD, 0, 12) of
 	{NFD, {ok, <<"FOR1", _Size:32, "BEAM">>}} ->
 	    Start = 12,
-	    scan_beam(NFD, Start, What, 17, []);
+	    scan_beam(NFD, Start, What, ?NO_MODULE_ATOM, []);
 	_Error -> 
 	    error({not_a_beam_file, filename(FD)})
     end.
 
-scan_beam(_FD, _Pos, [], Mod, Data) when Mod =/= 17 ->
+scan_beam(_FD, _Pos, [], Mod, Data) when Mod =/= ?NO_MODULE_ATOM ->
     {ok, Mod, Data};    
 scan_beam(FD, Pos, What, Mod, Data) ->
     case pread(FD, Pos, 8) of
-	{_NFD, eof} when Mod =:= 17 ->
+	{_NFD, eof} when Mod =:= ?NO_MODULE_ATOM ->
 	    error({missing_chunk, filename(FD), "Atom"});	    
 	{_NFD, eof} when What =:= info ->
 	    {ok, Mod, reverse(Data)};
