@@ -3404,17 +3404,6 @@ encode_size_struct2(ErtsAtomCacheMap *acmp, Eterm obj, unsigned dflags)
     return result;
 }
 
-static int is_valid_utf8_atom(byte* bytes, Uint nbytes)
-{
-    byte* err_pos;
-    Uint num_chars;
-
-    /*SVERK Do we really need to validate correct utf8? */
-    return nbytes <= MAX_ATOM_SZ_LIMIT
-	&& erts_analyze_utf8(bytes, nbytes, &err_pos, &num_chars, NULL) == ERTS_UTF8_OK
-	&& num_chars <= MAX_ATOM_CHARACTERS; 
-}
-
 static Sint
 decoded_size(byte *ep, byte* endp, int internal_tags)
 {
@@ -3492,7 +3481,7 @@ decoded_size(byte *ep, byte* endp, int internal_tags)
 	    CHKSIZE(2);
 	    n = get_int16(ep);
 	    ep += 2;
-	    if (!is_valid_utf8_atom(ep, n)) {
+	    if (n > MAX_ATOM_SZ_LIMIT) {
 		return -1;
 	    }
 	    SKIP(n+atom_extra_skip);
@@ -3511,7 +3500,7 @@ decoded_size(byte *ep, byte* endp, int internal_tags)
 	    CHKSIZE(1);
 	    n = get_int8(ep);
 	    ep++;
-	    if (!is_valid_utf8_atom(ep, n)) {
+	    if (n > MAX_ATOM_SZ_LIMIT) {
 		return -1;
 	    }
 	    SKIP(n+atom_extra_skip);
