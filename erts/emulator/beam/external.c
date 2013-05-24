@@ -134,6 +134,7 @@ static byte* dec_term(ErtsDistExternal *, Eterm**, byte*, ErlOffHeap*, Eterm*);
 static byte* dec_atom(ErtsDistExternal *, byte*, Eterm*);
 static byte* dec_pid(ErtsDistExternal *, Eterm**, byte*, ErlOffHeap*, Eterm*);
 static Sint decoded_size(byte *ep, byte* endp, int internal_tags);
+static void erl_grow_ewstack(UWord** start, UWord** sp, UWord** end, UWord **wsp);
 
 void erts_init_external(void) {
   erts_init_trap_export(&term_to_binary_trap_export,
@@ -1805,11 +1806,10 @@ dec_pid(ErtsDistExternal *edep, Eterm** hpp, byte* ep, ErlOffHeap* off_heap, Ete
    deallocated if the process dies during a yield.
  */
 #define ALLOC_EWASTACK(ewa)                                             \
-    ewa->start = (Eterm *)erts_alloc(ERTS_ALC_T_ESTACK, DEF_WSTACK_SIZE*sizeof(UWord)*2); \
+    ewa->start = (Eterm *)erts_alloc(ERTS_ALC_T_ESTACK, DEF_ESTACK_SIZE*sizeof(UWord)); \
     ewa->sp = ewa->start;                                               \
-    ewa->end = ewa->start + DEF_WSTACK_SIZE*2;                          \
+    ewa->end = ewa->start + DEF_ESTACK_SIZE;                          \
     ewa->wsp = ewa->end - 1;
-
 
 #define DESTROY_EWASTACK(ewa)						\
 do {									\
@@ -1819,12 +1819,29 @@ do {									\
         }								\
 } while(0)
 
+static void
+erl_grow_ewstack(UWord** start, UWord** sp, UWord** end, UWord **wsp)
+{
+    Uint old_size;
+    Uint new_size; 
+    Uint sp_offs;
+    int wsize;
+
+    old_size  = (*end - *start);
+    new_size  = old_size * 2;
+    sp_offs   = *sp - *start;
+    wsize     = (*end - *wsp) -1;		\
+
+    *start = erts_realloc(ERTS_ALC_T_ESTACK, (void *) *start, new_size*sizeof(UWord));
+    *end = *start + new_size;
+    *sp = *start + sp_offs;
+    *wsp = *end-1;
+    while(wsize) *(*wsp--) = (*sp)[wsize--];
+}
+
 #define GROW_IF_NEEDED(ewa)                                             \
     if (ewa->sp == ewa->wsp) {                  			\
-        int size = (ewa->end - ewa->wsp) -1;				\
-	erl_grow_wstack(&ewa->start, &ewa->sp, &ewa->end);		\
-        ewa->wsp = ewa->end-1;                                          \
-        while(size) *ewa->wsp-- = ewa->sp[size--];			\
+	erl_grow_ewstack(&ewa->start, &ewa->sp, &ewa->end, &ewa->wsp);  \
     }									
 
 #define EWASTACK_PUSH(ewa, x)						\
@@ -1863,7 +1880,6 @@ do {									\
     off_heap = ewa->off_heap;                                           \
 } while(0)
 
-
 static void cleanup_my_data_ttb(Binary *bp)
 {
     enc_work_area *ewa;
@@ -1871,13 +1887,11 @@ static void cleanup_my_data_ttb(Binary *bp)
     DESTROY_EWASTACK(ewa);
     return;
 }
-
-
-
+ 
 #define SET_UP_EWA \
-    bin =  erts_create_magic_binary(sizeof(enc_work_area), cleanup_my_data_ttb); \
-    ewa = (enc_work_area *)ERTS_MAGIC_BIN_DATA(bin); \
-    ALLOC_EWASTACK(ewa);\
+    bin = erts_create_magic_binary(sizeof(enc_work_area), cleanup_my_data_ttb); \
+    ewa = (enc_work_area *)ERTS_MAGIC_BIN_DATA(bin);                            \
+    ALLOC_EWASTACK(ewa);						        \
     SAVE_TO_EWA;
 
 #define CHECK_ENC_TERM()                                                \
@@ -2125,7 +2139,8 @@ BIF_RETTYPE enc_term_cont(Process *p, Eterm arg1)
 			Eterm* cons = list_val(obj);
 			*ep++ = unsigned_val(CAR(cons));
 			obj = CDR(cons);
-		    }
+		    } 
+		    reds -= i;
 		} else {
 		    *ep++ = LIST_EXT;
 		    put_int32(i, ep);
@@ -2360,7 +2375,8 @@ BIF_RETTYPE enc_term_cont(Process *p, Eterm arg1)
 	}
     }
     SAVE_TO_EWA;
-    // DESTROY_EWASTACK(ewa);
+    // TODO: Should be handled by cleanup_my_data_ttb but problem if done to late...
+    DESTROY_EWASTACK(ewa); 
     return arg1;
 }
 
