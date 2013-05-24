@@ -1946,7 +1946,6 @@ setup_rootset(Process *p, Eterm *objv, int nobj, Rootset *rootset)
     // Check if a suspended bif has live working data.
     // How do we know n is small enough to fit in roots[32?]?
     if (p->extra_root != NULL) {
-      printf("GC with extra_root 0x%xl\n", p->extra_root);
         roots[n].v = p->extra_root;
         roots[n].sz = p->extra_root_sz;
         ++n;
