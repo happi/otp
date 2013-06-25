@@ -2,12 +2,15 @@
 
 -export([docbook/2]).
 
--record(op, {name="", opcode, doc="", spec="", deprecated=false, prev=[]}).
+-record(op, {name="", arity="", opcode, doc="", spec="", deprecated=false, prev=[]}).
 
 docbook(InFile, OutFile) ->
     {ok, File} = file:open(InFile, [read]),
     Op = parse(File),
-    docbook_format(Op).
+    Doc = docbook_format(Op),
+    file:write_file(OutFile, Doc).
+
+
 
 docbook_format(Op) ->
     docbook_format_line(Op)
@@ -15,6 +18,7 @@ docbook_format(Op) ->
         "|-------------------------------------------------\n".
 
 docbook_format_line(#op{name=Name,
+                        arity=Arity,
                         opcode=Opcode,
                         doc=Doc,
                         spec=Spec,
@@ -22,12 +26,13 @@ docbook_format_line(#op{name=Name,
                         prev=Prev}) ->
     docbook_format_line(Prev) ++
         "|" ++ strip(Name) ++
+        "|" ++ strip(Arity) ++
         "|" ++  format_opcode(Opcode, Deprecated) ++
         "|" ++  format_spec(Spec, Deprecated) ++
         "|" ++  strip(Doc) ++ "\n";
 docbook_format_line([]) ->
     "|-------------------------------------------------\n" ++
-        "| Name | Op Code | Spec | Documentation\n".
+        "| Name | Arity | Op Code | Spec | Documentation\n".
 
 
 format_spec([Name|Args], false) ->
@@ -71,20 +76,23 @@ parse(File, Op) ->
     case file:read_line(File) of
         {ok, Line} ->
             parse(File, parse_line(Line, Op));
-        eof -> Op
+        eof -> Op#op.prev
     end.
 
 parse_line("##" ++ Rest, Op) ->
     parse_doc(Rest, Op);
 parse_line("#" ++ _, Op) -> Op;
 parse_line([N|_]=Line, Op) when N >= $0, N =< $9 ->
-    [OpNo, MFA] = string:tokens(Line, ": "),
-    case MFA of
-        "-" ++ Name ->
-            Op#op{name=Name, opcode=OpNo, deprecated=true, prev=Op};
-        _ ->
-            #op{name=MFA, opcode=OpNo, prev=Op}
-    end;
+    [OpNo, NA] = string:tokens(Line, ":"),
+    [Name, Arity] = string:tokens(string:strip(NA, left, $ ), "/"),
+    NewOp =
+        case Name of
+            "-" ++ OpName ->
+                Op#op{name=OpName, deprecated=true};
+            _ ->
+                Op#op{name=Name}
+        end,
+    #op{prev=NewOp#op{opcode=OpNo, arity=Arity}};
 parse_line(_, Op) ->
     Op.
 
