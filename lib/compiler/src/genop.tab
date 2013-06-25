@@ -23,7 +23,12 @@ BEAM_FORMAT_NUMBER=0
 # arity or semantics, the format number above must be bumped.
 #
 
+## @spec label Lbl
+## @doc Specify a module local label.
+## Label gives this code address a name (Lbl) and marks the start of
+## a basic block.
 1: label/1
+
 2: func_info/3
 3: int_code_end/0
 
