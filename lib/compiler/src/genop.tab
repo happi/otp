@@ -203,6 +203,9 @@ BEAM_FORMAT_NUMBER=0
 #
 75: call_fun/1
 76: -make_fun/3
+## @spec is_function Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a
+##  function (i.e. fun or closure).
 77: is_function/2
 
 #
@@ -266,9 +269,14 @@ BEAM_FORMAT_NUMBER=0
 111: bs_add/5
 112: apply/1
 113: apply_last/2
+## @spec is_boolean Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a Boolean
 114: is_boolean/2
 
 # New instructions in R10B-6.
+## @spec is_function2 Lbl Arg1 Arity
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a
+## function of arity Arity
 115: is_function2/3
 
 # New bit syntax matching in R11B.
@@ -295,6 +303,8 @@ BEAM_FORMAT_NUMBER=0
 128: -put_literal/2
 
 # R11B-5
+## @spec is_bitstr Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a bit string
 129: is_bitstr/2
 
 # R12B
