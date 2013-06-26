@@ -23,6 +23,11 @@ BEAM_FORMAT_NUMBER=0
 # arity or semantics, the format number above must be bumped.
 #
 
+# Note: the Edoc like documentation of instructions is an experimental
+# community provided feature of R16B02. It is most likely not
+# completely correct. If you find an error or ommission please feel
+# free to submit a correction as a patch.
+
 ## @spec label Lbl
 ## @doc Specify a module local label.
 ## Label gives this code address a name (Lbl) and marks the start of
@@ -91,29 +96,70 @@ BEAM_FORMAT_NUMBER=0
 #
 # Comparision operators.
 #
+
+## @spec is_lt Lbl Arg1 Arg2
+## @doc Compares two terms and jumps to Lbl if Arg1 is not less than Arg2.
 39: is_lt/3
+## @spec is_ge Lbl Arg1 Arg2
+## @doc Compares two terms and jumps to Lbl if Arg1 is less than Arg2.
 40: is_ge/3
+## @spec is_eq Lbl Arg1 Arg2
+## @doc Compares two terms and jumps to Lbl if Arg1 is not (numerically) equal to Arg2.
 41: is_eq/3
+## @spec is_ne Lbl Arg1 Arg2
+## @doc Compares two terms and jumps to Lbl if Arg1 is (numerically) equal to Arg2.
 42: is_ne/3
+## @spec is_eq_exact Lbl Arg1 Arg2
+## @doc Compares two terms and jumps to Lbl if Arg1 is not exactly equal to Arg2.
 43: is_eq_exact/3
+## @spec is_ne_exact Lbl Arg1 Arg2
+## @doc Compares two terms and jumps to Lbl if Arg1 is exactly equal to Arg2.
 44: is_ne_exact/3
 
 #
 # Type tests.
 #
+
+## @spec is_integer Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not an integer.
 45: is_integer/2
+## @spec is_float Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a float.
 46: is_float/2
+## @spec is_number Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a number.
 47: is_number/2
+## @spec is_atom Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not an atom.
 48: is_atom/2
+## @spec is_pid Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a pid.
 49: is_pid/2
+## @spec is_reference Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a reference.
 50: is_reference/2
+## @spec is_port Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a port.
 51: is_port/2
+## @spec is_nil Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not nil.
 52: is_nil/2
+## @spec is_binary Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a binary.
 53: is_binary/2
 54: -is_constant/2
+## @spec is_list Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a cons or nil.
 55: is_list/2
+## @spec is_nonempty_list Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a cons.
 56: is_nonempty_list/2
+## @spec is_tuple Lbl Arg1
+## @doc Tests the type of Arg1 and jumps to Lbl if it is not a tuple.
 57: is_tuple/2
+## @spec test_arity Lbl Arg1 Arity
+## @doc Tests the arity of (the tuple in) Arg1 and jumps
+## to Lbl if it is not equal to Arity.
 58: test_arity/3
 
 #
