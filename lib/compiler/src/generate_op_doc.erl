@@ -15,7 +15,7 @@ docbook(InFile, OutFile) ->
 docbook_format(Op) ->
     docbook_format_line(Op)
         ++
-        "|-------------------------------------------------\n".
+        "|=================================================\n".
 
 docbook_format_line(#op{name=Name,
                         arity=Arity,
@@ -25,15 +25,23 @@ docbook_format_line(#op{name=Name,
                         deprecated=Deprecated,
                         prev=Prev}) ->
     docbook_format_line(Prev) ++
-        "|" ++ strip(Name) ++
+        "|" ++ format_name(Name, Deprecated) ++
         "|" ++ strip(Arity) ++
-        "|" ++  format_opcode(Opcode, Deprecated) ++
-        "|" ++  format_spec(Spec, Deprecated) ++
-        "|" ++  strip(Doc) ++ "\n";
+        "|" ++ format_opcode(Opcode, Deprecated) ++
+        "|" ++ format_spec(Spec, Deprecated) ++
+        "|" ++ strip(Doc) ++ "\n";
 docbook_format_line([]) ->
-    "|-------------------------------------------------\n" ++
+    "=== Generic Instructions\n" ++ 
+    "[options=" ++ [$"] ++ "header" ++ [$"] ++ "]\n"
+        "|=================================================\n" ++
         "| Name | Arity | Op Code | Spec | Documentation\n".
 
+
+format_name(Name, Deprecated) ->
+    if
+        Deprecated -> "[line-through]#" ++ strip(Name) ++ "#";
+        true -> strip(Name)
+    end.
 
 format_spec([Name|Args], false) ->
     "*"++strip(Name)++"*" ++ " "
