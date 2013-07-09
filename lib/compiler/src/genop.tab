@@ -110,7 +110,7 @@ BEAM_FORMAT_NUMBER=0
 15: allocate_heap_zero/3
 ## @spec test_heap HeapNeed Live
 ## @doc Ensure there is space for HeapNeed words on the heap. If a GC is needed
-##      during save Live number of X registers.
+##      save Live number of X registers.
 ##      Also save the continuation pointer (CP) on the stack.
 16: test_heap/2
 ## @spec init N
