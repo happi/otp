@@ -87,26 +87,31 @@ BEAM_FORMAT_NUMBER=0
 ## @spec allocate StackNeed Live
 ## @doc Allocate space for StackNeed words on the stack. If a GC is needed
 ##      during allocation there are Live number of live X registers.
+##      Also save the continuation pointer (CP) on the stack.
 12: allocate/2
 ## @spec allocate_heap StackNeed HeapNeed Live
 ## @doc Allocate space for StackNeed words on the stack and ensure there is
 ##      space for HeapNeed words on the heap. If a GC is needed
 ##      save Live number of X registers.
+##      Also save the continuation pointer (CP) on the stack.
 13: allocate_heap/3
 ## @spec allocate_zero StackNeed Live
 ## @doc Allocate space for StackNeed words on the stack. If a GC is needed
 ##      during allocation there are Live number of live X registers.
 ##      Clear the new stack words. (By writing NIL.)
+##      Also save the continuation pointer (CP) on the stack.
 14: allocate_zero/2
 ## @spec allocate_heap_zero StackNeed HeapNeed Live
 ## @doc Allocate space for StackNeed words on the stack and HeapNeed words
 ##      on the heap. If a GC is needed
 ##      during allocation there are Live number of live X registers.
 ##      Clear the new stack words. (By writing NIL.)
+##      Also save the continuation pointer (CP) on the stack.
 15: allocate_heap_zero/3
 ## @spec test_heap HeapNeed Live
 ## @doc Ensure there is space for HeapNeed words on the heap. If a GC is needed
 ##      during save Live number of X registers.
+##      Also save the continuation pointer (CP) on the stack.
 16: test_heap/2
 ## @spec init N
 ## @doc  Clear N stack words. (By writing NIL.)
