@@ -63,7 +63,7 @@ BEAM_FORMAT_NUMBER=0
 ## Save the next instruction as the return address.
 7: call_ext/2
 ## @spec call_ext_last Arity Destination Deallocate
-## @doc Deallocate and do a tail call to function of arity Arity 
+## @doc Deallocate and do a tail call to function of arity Arity
 ## pointed to by Destination.
 ## Deallocate Deallocate words from the stack before the call.
 8: call_ext_last/3
@@ -84,13 +84,39 @@ BEAM_FORMAT_NUMBER=0
 #
 # Allocating, deallocating and returning.
 #
+## @spec allocate StackNeed Live
+## @doc Allocate space for StackNeed words on the stack. If a GC is needed
+##      during allocation there are Live number of live X registers.
 12: allocate/2
+## @spec allocate_heap StackNeed HeapNeed Live
+## @doc Allocate space for StackNeed words on the stack and ensure there is
+##      space for HeapNeed words on the heap. If a GC is needed
+##      save Live number of X registers.
 13: allocate_heap/3
+## @spec allocate_zero StackNeed Live
+## @doc Allocate space for StackNeed words on the stack. If a GC is needed
+##      during allocation there are Live number of live X registers.
+##      Clear the new stack words. (By writing NIL.)
 14: allocate_zero/2
+## @spec allocate_heap_zero StackNeed HeapNeed Live
+## @doc Allocate space for StackNeed words on the stack and HeapNeed words
+##      on the heap. If a GC is needed
+##      during allocation there are Live number of live X registers.
+##      Clear the new stack words. (By writing NIL.)
 15: allocate_heap_zero/3
+## @spec test_heap HeapNeed Live
+## @doc Ensure there is space for HeapNeed words on the heap. If a GC is needed
+##      during save Live number of X registers.
 16: test_heap/2
+## @spec init N
+## @doc  Clear N stack words. (By writing NIL.)
 17: init/1
+## @spec deallocate N
+## @doc  Restore the continuation pointer (CP) from the stack and deallocate
+##       N+1 words from the stack (the + 1 is for the CP).
 18: deallocate/1
+## @spec return
+## @doc  Return to the address in the continuation pointer (CP).
 19: return/0
 
 #
