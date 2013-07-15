@@ -127,9 +127,14 @@ BEAM_FORMAT_NUMBER=0
 #
 # Sending & receiving.
 #
+## @spec send
+## @doc  Sends argument in X1 as a message to the destination process in X0.
+##       the message in X1 ends up as the result of the send in X0.
 20: send/0
 21: remove_message/0
 22: timeout/0
+## @spec loop_rec Label Source
+## @doc  Loop over the message queue, if it is empty jump to Label.
 23: loop_rec/2
 24: loop_rec_end/1
 25: wait/1
