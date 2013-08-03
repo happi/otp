@@ -131,13 +131,26 @@ BEAM_FORMAT_NUMBER=0
 ## @doc  Sends argument in X1 as a message to the destination process in X0.
 ##       the message in X1 ends up as the result of the send in X0.
 20: send/0
+## @spec remove_message
+## @doc  Unlinks the current message from the message queue and stores a
+##       pointer to the message in X0. Removes any timeout.
 21: remove_message/0
+## @spec timeout
+## @doc  Resets the save point of the mailbox and clears the timeout flag.
 22: timeout/0
 ## @spec loop_rec Label Source
 ## @doc  Loop over the message queue, if it is empty jump to Label.
 23: loop_rec/2
+## @spec loop_rec_end Label
+## @doc  Advances the save pointer to the next message and jumps back to Label.
 24: loop_rec_end/1
+## @spec wait Label
+## @doc  Suspends the processes and set the entry point to the beginning of the
+##           receive loop at Label.
 25: wait/1
+## @spec wait_timeout Lable Time
+## @doc  Sets up a timeout of Time milllisecons and saves the address of the
+##           following instruction as the entry point if the timeout triggers.
 26: wait_timeout/2
 
 #
