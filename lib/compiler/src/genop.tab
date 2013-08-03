@@ -430,7 +430,15 @@ BEAM_FORMAT_NUMBER=0
 
 # R14A
 
+## @spec recv_mark Label
+## @doc  Saves the end of the message queue and the address of
+##            the label Label so that a recv_set instruction can start
+##            scanning the inbox from this position.
 150: recv_mark/1
+## @spec recv_set Label
+## @doc Checks that the saved mark points to Lable and sets the
+##           save pointer in the message queue to the last position
+##           of the message queue saved by the recv_mark instruction.
 151: recv_set/1
 152: gc_bif3/7
 
