@@ -241,8 +241,16 @@ BEAM_FORMAT_NUMBER=0
 #
 # Indexing & jumping.
 #
+## @spec select_val Arg FailLabel Destinations
+## @doc Jumps to the destination label corresponding to Arg
+##          in the Destinations list, if no arity matches, jump to FailLabel.
 59: select_val/3
+## @spec select_tuple_arity Tuple FailLabel Destinations
+## @doc Checks the arity of the tuple Tuple and jumps to the corresponding
+##          destination label, if no arity matches, jump to FailLabel.
 60: select_tuple_arity/3
+## @spec jump Label
+## @doc Jump to Label.
 61: jump/1
 
 #
@@ -403,6 +411,9 @@ BEAM_FORMAT_NUMBER=0
 133: bs_init_writable/0
 134: bs_append/8
 135: bs_private_append/6
+## @spec trim N Remaining
+## @doc Reduce the stack usage by N words,
+##           keeping the cp on the top of the stack.
 136: trim/2
 137: bs_init_bits/6
 
@@ -436,10 +447,15 @@ BEAM_FORMAT_NUMBER=0
 ##            scanning the inbox from this position.
 150: recv_mark/1
 ## @spec recv_set Label
-## @doc Checks that the saved mark points to Lable and sets the
+## @doc Checks that the saved mark points to Label and sets the
 ##           save pointer in the message queue to the last position
 ##           of the message queue saved by the recv_mark instruction.
 151: recv_set/1
+## @spec gc_bif3 Lbl Live Bif Arg1 Arg2 Arg3 Reg
+## @doc Call the bif Bif with the arguments Arg1, Arg2 and Arg3,
+##  and store the result in Reg.
+## On failure jump to Lbl.
+## Store the arguments in x(Live), x(Live+1) and x(Live+2) if needed.
 152: gc_bif3/7
 
 # R15A
