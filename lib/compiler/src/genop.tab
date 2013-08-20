@@ -141,13 +141,13 @@ BEAM_FORMAT_NUMBER=0
 # Sending & receiving.
 #
 ## @spec send
-## @doc  Send argument in X1 as a message to the destination process in X0.
-##       the message in X1 ends up as the result of the send in X0.
+## @doc  Send argument in x(0) as a message to the destination process in x(0).
+##       The message in x(1) ends up as the result of the send in x(0).
 20: send/0
 
 ## @spec remove_message
 ## @doc  Unlink the current message from the message queue and store a
-##       pointer to the message in X0. Remove any timeout.
+##       pointer to the message in x(0). Remove any timeout.
 21: remove_message/0
 
 ## @spec timeout
@@ -344,7 +344,7 @@ BEAM_FORMAT_NUMBER=0
 #
 ## @spec call_fun Arity
 ## @doc Call a fun of arity Arity. Assume arguments in
-## registers x0 to x(Arity-1) and that the fun is in x(Arity).
+## registers x(0) to x(Arity-1) and that the fun is in x(Arity).
 75: call_fun/1
 
 76: -make_fun/3
