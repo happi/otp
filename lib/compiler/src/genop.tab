@@ -25,7 +25,7 @@ BEAM_FORMAT_NUMBER=0
 
 # Note: the Edoc like documentation of instructions is an experimental
 # community provided feature of R16B02. It is most likely not
-# completely correct. If you find an error or ommission please feel
+# completely correct. If you find an error or omission please feel
 # free to submit a correction as a patch.
 
 ## @spec label Lbl
@@ -52,7 +52,7 @@ BEAM_FORMAT_NUMBER=0
 ## @spec call_last Arity Label Dellocate
 ## @doc Deallocate and do a tail recursive call to the function at Label.
 ## Use the current CP as CP (i.e. do not use I for CP).
-## Before the call deallocate Deallocate wrds of stack.
+## Before the call deallocate Deallocate words of stack.
 5: call_last/3
 
 ## @spec call_only Arity Label
@@ -304,7 +304,7 @@ BEAM_FORMAT_NUMBER=0
 #
 
 ## @spec Move Source Destination
-## @doc Move the source Source (a litteral or a register) to
+## @doc Move the source Source (a literal or a register) to
 ##      the destination register Destination.
 64: move/2
 
