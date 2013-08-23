@@ -475,7 +475,7 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec trim N Remaining
 ## @doc Reduce the stack usage by N words,
-##           keeping the cp on the top of the stack.
+##           keeping the CP on the top of the stack.
 136: trim/2
 
 137: bs_init_bits/6
