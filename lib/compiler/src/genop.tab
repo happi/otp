@@ -30,8 +30,8 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec label Lbl
 ## @doc Specify a module local label.
-## Label gives this code address a name (Lbl) and marks the start of
-## a basic block.
+##      Label gives this code address a name (Lbl) and marks the start of
+##      a basic block.
 1: label/1
 
 ## @spec func_info M F A
@@ -46,29 +46,29 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec call Arity Label
 ## @doc Call the function at Label.
-## Save the next instruction as the return address.
+##      Save the next instruction as the return address.
 4: call/2
 
 ## @spec call_last Arity Label Dellocate
 ## @doc Deallocate and do a tail recursive call to the function at Label.
-## Use the current CP as CP (i.e. do not use I for CP).
-## Before the call deallocate Deallocate words of stack.
+##      Use the current CP as CP (i.e. do not use I for CP).
+##      Before the call deallocate Deallocate words of stack.
 5: call_last/3
 
 ## @spec call_only Arity Label
 ## @doc Do a tail recursive call to the function at Label.
-## Use the current CP as CP (i.e. do not use I for CP).
+##      Use the current CP as CP (i.e. do not use I for CP).
 6: call_only/2
 
 ## @spec call_ext Arity Destination
 ## @doc Call the function of arity Arity pointed to by Destination.
-## Save the next instruction as the return address.
+##      Save the next instruction as the return address.
 7: call_ext/2
 
 ## @spec call_ext_last Arity Destination Deallocate
 ## @doc Deallocate and do a tail call to function of arity Arity
-## pointed to by Destination.
-## Deallocate Deallocate words from the stack before the call.
+##      pointed to by Destination.
+##      Deallocate Deallocate words from the stack before the call.
 8: call_ext_last/3
 
 ## @spec bif0 Bif Reg
@@ -77,13 +77,13 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec bif1 Lbl Bif Arg Reg
 ## @doc Call the bif Bif with the argument Arg, and store the result in Reg.
-## On failure jump to Lbl.
+##      On failure jump to Lbl.
 10: bif1/4
 
 ## @spec bif2 Lbl Bif Arg1 Arg2 Reg
 ## @doc Call the bif Bif with the arguments Arg1 and Arg2,
-## and store the result in Reg.
-## On failure jump to Lbl.
+##      and store the result in Reg.
+##      On failure jump to Lbl.
 11: bif2/5
 
 #
@@ -164,12 +164,12 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec wait Label
 ## @doc  Suspend the processes and set the entry point to the beginning of the
-##           receive loop at Label.
+##       receive loop at Label.
 25: wait/1
 
 ## @spec wait_timeout Lable Time
 ## @doc  Sets up a timeout of Time milllisecons and saves the address of the
-##           following instruction as the entry point if the timeout triggers.
+##       following instruction as the entry point if the timeout triggers.
 26: wait_timeout/2
 
 #
@@ -281,12 +281,12 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec select_val Arg FailLabel Destinations
 ## @doc Jump to the destination label corresponding to Arg
-##          in the Destinations list, if no arity matches, jump to FailLabel.
+##      in the Destinations list, if no arity matches, jump to FailLabel.
 59: select_val/3
 
 ## @spec select_tuple_arity Tuple FailLabel Destinations
 ## @doc Check the arity of the tuple Tuple and jump to the corresponding
-##          destination label, if no arity matches, jump to FailLabel.
+##      destination label, if no arity matches, jump to FailLabel.
 60: select_tuple_arity/3
 
 ## @spec jump Label
@@ -311,12 +311,12 @@ BEAM_FORMAT_NUMBER=0
 ## @spec get_list  Source Head Tail
 ## @doc  Get the head and tail (or car and cdr) parts of a list
 ##       (a cons cell) from Source and put them into the registers
-##        Head and Tail.
+##       Head and Tail.
 65: get_list/3
 
 ## @spec get_tuple_element Source Element Destination
 ## @doc  Get element number Element from the tuple in Source and put
-##        it in the destination register Destination.
+##       it in the destination register Destination.
 66: get_tuple_element/3
 
 ## @spec set_tuple_element NewElement Tuple Position
@@ -344,14 +344,14 @@ BEAM_FORMAT_NUMBER=0
 #
 ## @spec call_fun Arity
 ## @doc Call a fun of arity Arity. Assume arguments in
-## registers x(0) to x(Arity-1) and that the fun is in x(Arity).
+##      registers x(0) to x(Arity-1) and that the fun is in x(Arity).
 75: call_fun/1
 
 76: -make_fun/3
 
 ## @spec is_function Lbl Arg1
 ## @doc Test the type of Arg1 and jump to Lbl if it is not a
-##  function (i.e. fun or closure).
+##      function (i.e. fun or closure).
 77: is_function/2
 
 #
@@ -424,7 +424,7 @@ BEAM_FORMAT_NUMBER=0
 # New instructions in R10B-6.
 ## @spec is_function2 Lbl Arg1 Arity
 ## @doc Test the type of Arg1 and jump to Lbl if it is not a
-## function of arity Arity
+##      function of arity Arity
 115: is_function2/3
 
 # New bit syntax matching in R11B.
@@ -442,14 +442,14 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec gc_bif1 Lbl Live Bif Arg Reg
 ## @doc Call the bif Bif with the argument Arg, and store the result in Reg.
-## On failure jump to Lbl. Store the argument in x(Live) if needed.
+##      On failure jump to Lbl. Store the argument in x(Live) if needed.
 124: gc_bif1/5
 
 ## @spec gc_bif2 Lbl Live Bif Arg1 Arg2 Reg
 ## @doc Call the bif Bif with the arguments Arg1 and Arg2,
-##  and store the result in Reg.
-## On failure jump to Lbl.
-## Store the arguments in x(Live) and x(Live+1) if needed.
+##      and store the result in Reg.
+##      On failure jump to Lbl.
+##      Store the arguments in x(Live) and x(Live+1) if needed.
 125: gc_bif2/6
 
 # Experimental new bit_level bifs introduced in R11B.
@@ -475,7 +475,7 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec trim N Remaining
 ## @doc Reduce the stack usage by N words,
-##           keeping the CP on the top of the stack.
+##      keeping the CP on the top of the stack.
 136: trim/2
 
 137: bs_init_bits/6
@@ -506,21 +506,21 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec recv_mark Label
 ## @doc  Save the end of the message queue and the address of
-##            the label Label so that a recv_set instruction can start
-##            scanning the inbox from this position.
+##       the label Label so that a recv_set instruction can start
+##       scanning the inbox from this position.
 150: recv_mark/1
 
 ## @spec recv_set Label
 ## @doc Check that the saved mark points to Label and set the
-##           save pointer in the message queue to the last position
-##           of the message queue saved by the recv_mark instruction.
+##      save pointer in the message queue to the last position
+##      of the message queue saved by the recv_mark instruction.
 151: recv_set/1
 
 ## @spec gc_bif3 Lbl Live Bif Arg1 Arg2 Arg3 Reg
 ## @doc Call the bif Bif with the arguments Arg1, Arg2 and Arg3,
-##  and store the result in Reg.
-## On failure jump to Lbl.
-## Store the arguments in x(Live), x(Live+1) and x(Live+2) if needed.
+##      and store the result in Reg.
+##      On failure jump to Lbl.
+##      Store the arguments in x(Live), x(Live+1) and x(Live+2) if needed.
 152: gc_bif3/7
 
 # R15A
