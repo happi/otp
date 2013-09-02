@@ -345,6 +345,7 @@ BEAM_FORMAT_NUMBER=0
 ## @spec call_fun Arity
 ## @doc Call a fun of arity Arity. Assume arguments in
 ##      registers x(0) to x(Arity-1) and that the fun is in x(Arity).
+##      Save the next instruction as the return address in the CP register.
 75: call_fun/1
 
 76: -make_fun/3
