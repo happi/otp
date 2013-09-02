@@ -125,7 +125,7 @@ BEAM_FORMAT_NUMBER=0
 16: test_heap/2
 
 ## @spec init N
-## @doc  Clear N stack words. (By writing NIL.)
+## @doc  Clear the Nth stack word. (By writing NIL.)
 17: init/1
 
 ## @spec deallocate N
