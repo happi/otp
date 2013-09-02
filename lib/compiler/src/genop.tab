@@ -442,14 +442,17 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec gc_bif1 Lbl Live Bif Arg Reg
 ## @doc Call the bif Bif with the argument Arg, and store the result in Reg.
-##      On failure jump to Lbl. Store the argument in x(Live) if needed.
+##      On failure jump to Lbl.
+##      Do a garbage collection if necessary to allocate space on the heap
+##      for the result (saving Live number of X registers).
 124: gc_bif1/5
 
 ## @spec gc_bif2 Lbl Live Bif Arg1 Arg2 Reg
 ## @doc Call the bif Bif with the arguments Arg1 and Arg2,
 ##      and store the result in Reg.
 ##      On failure jump to Lbl.
-##      Store the arguments in x(Live) and x(Live+1) if needed.
+##      Do a garbage collection if necessary to allocate space on the heap
+##      for the result (saving Live number of X registers).
 125: gc_bif2/6
 
 # Experimental new bit_level bifs introduced in R11B.
@@ -520,7 +523,8 @@ BEAM_FORMAT_NUMBER=0
 ## @doc Call the bif Bif with the arguments Arg1, Arg2 and Arg3,
 ##      and store the result in Reg.
 ##      On failure jump to Lbl.
-##      Store the arguments in x(Live), x(Live+1) and x(Live+2) if needed.
+##      Do a garbage collection if necessary to allocate space on the heap
+##      for the result (saving Live number of X registers).
 152: gc_bif3/7
 
 # R15A
