@@ -23,11 +23,6 @@ BEAM_FORMAT_NUMBER=0
 # arity or semantics, the format number above must be bumped.
 #
 
-# Note: the Edoc like documentation of instructions is an experimental
-# community provided feature of R16B02. It is most likely not
-# completely correct. If you find an error or omission please feel
-# free to submit a correction as a patch.
-
 ## @spec label Lbl
 ## @doc Specify a module local label.
 ##      Label gives this code address a name (Lbl) and marks the start of
