@@ -46,28 +46,29 @@ BEAM_FORMAT_NUMBER=0
 
 ## @spec call Arity Label
 ## @doc Call the function at Label.
-##      Save the next instruction as the return address.
+##      Save the next instruction as the return address in the CP register.
 4: call/2
 
 ## @spec call_last Arity Label Dellocate
 ## @doc Deallocate and do a tail recursive call to the function at Label.
-##      Use the current CP as CP (i.e. do not use I for CP).
+##      Do not update the CP register.
 ##      Before the call deallocate Deallocate words of stack.
 5: call_last/3
 
 ## @spec call_only Arity Label
 ## @doc Do a tail recursive call to the function at Label.
-##      Use the current CP as CP (i.e. do not use I for CP).
+##      Do not update the CP register.
 6: call_only/2
 
 ## @spec call_ext Arity Destination
 ## @doc Call the function of arity Arity pointed to by Destination.
-##      Save the next instruction as the return address.
+##      Save the next instruction as the return address in the CP register.
 7: call_ext/2
 
 ## @spec call_ext_last Arity Destination Deallocate
 ## @doc Deallocate and do a tail call to function of arity Arity
 ##      pointed to by Destination.
+##      Do not update the CP register.
 ##      Deallocate Deallocate words from the stack before the call.
 8: call_ext_last/3
 
@@ -357,8 +358,10 @@ BEAM_FORMAT_NUMBER=0
 #
 # Late additions to R5.
 #
-## @spec call_ext_only Arity Destination
-## @doc Do a tail call to the function of arity Arity pointed to by Destination.
+
+## @spec call_ext_only Arity Label
+##      Do a tail recursive call to the function at Label.
+##      Do not update the CP register.
 78: call_ext_only/2
 
 #
